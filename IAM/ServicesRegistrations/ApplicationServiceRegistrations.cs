@@ -8,9 +8,8 @@ public static class ApplicationServiceRegistrations
     public static IServiceCollection AddApplicationServices(this IServiceCollection services)
     {
         services.AddBootstrapServices();
-        services.AddIAMServices();
+        
+        services.AddIamServices();
         return services;
     }
-
-
 }
