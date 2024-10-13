@@ -23,7 +23,7 @@ public class JwtTokenService : IJwtTokenService
             new Claim(ClaimTypes.Role, user.Role), // Admin role claim
             new Claim("Department", user.Department), // Custom claim
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
-       };
+        };
 
         var tokenValidity = DateTime.Now.AddDays(7);
 
