@@ -30,5 +30,13 @@ namespace IAM.Controllers
 
             return result.IsSuccess ? Ok(result) : BadRequest(result.Errors);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Login(LoginModel model)
+        {
+            var result = await _userService.Login(model);
+
+            return result.IsSuccess ? Ok(result) : BadRequest(result.Errors);
+        }
     }
 }

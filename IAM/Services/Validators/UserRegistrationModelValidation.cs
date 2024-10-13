@@ -3,7 +3,7 @@ using IAM.Models;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
-namespace IAM.Services.Validations;
+namespace IAM.Services.Validators;
 
 public class UserRegistrationModelValidator
 {

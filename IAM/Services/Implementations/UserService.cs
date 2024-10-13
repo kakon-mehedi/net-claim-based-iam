@@ -2,7 +2,7 @@ using System;
 using IAM.Models;
 using IAM.Repositories;
 using IAM.Services.Mappings;
-using IAM.Services.Validations;
+using IAM.Services.Validators;
 using Microsoft.AspNetCore.Identity;
 
 namespace IAM.Services.Implementations;
@@ -10,11 +10,18 @@ namespace IAM.Services.Implementations;
 public class UserService : IUserService
 {
     private readonly IPasswordHasher<User> _passwordHasher;
+
+    private readonly IJwtTokenService _tokenService;
     private readonly IRepositoryService<User> _repo;
 
-    public UserService(IPasswordHasher<User> passwordHasher, IRepositoryService<User> repo)
+    public UserService(
+        IPasswordHasher<User> passwordHasher,
+        IJwtTokenService tokenService,
+        IRepositoryService<User> repo
+    )
     {
         _passwordHasher = passwordHasher;
+        _tokenService = tokenService;
         _repo = repo;
     }
 
@@ -23,9 +30,40 @@ public class UserService : IUserService
         throw new NotImplementedException();
     }
 
-    public Task<ApiResponseModel> Login(LoginModel model)
+    public async Task<ApiResponseModel> Login(LoginModel model)
     {
-        throw new NotImplementedException();
+        var validator = new LoginModelValidator();
+        var response = await Task.Run(() => validator.validate(model));
+
+        if (!response.IsSuccess) return response;
+
+        var user = await _repo.GetItemByFilterAsync((user) => user.UserName == model.Username );
+
+        if (user == null)
+        {
+            response.SetError(401, "Unauthorized");
+            return response;
+        }
+
+        var passwordValidation = _passwordHasher.VerifyHashedPassword(user, user.Password, model.Password);
+
+        if (passwordValidation == PasswordVerificationResult.Failed) {
+            response.SetError(401, "Unauthorized");
+            return response;
+        }
+
+        var token = _tokenService.GenerateToken(user);
+
+        var data = new AuthResponse
+        {
+            Token = token,
+            Expiration = DateTime.UtcNow,
+        };
+
+        response.SetData(data);
+
+        return response;
+
     }
 
     public async Task<ApiResponseModel> RegisterUser(UserRegistrationModel model)

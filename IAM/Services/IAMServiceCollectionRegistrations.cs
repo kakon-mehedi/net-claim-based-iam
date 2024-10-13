@@ -11,6 +11,7 @@ public static class IamServiceCollectionRegistrations
     public static IServiceCollection AddIamServices(this IServiceCollection services)
     {
         services.AddTransient<IUserService, UserService>();
+        services.AddTransient<IJwtTokenService, JwtTokenService>();
         
         services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
         

@@ -15,7 +15,7 @@ public class UserEntityMapper
             Department = source.Department,
             Role = source.Role,
             Email = source.Email,
-
+            RefreshToken = string.Empty
         };
 
         user.Password = passwordHasher.HashPassword(user, source.Password);

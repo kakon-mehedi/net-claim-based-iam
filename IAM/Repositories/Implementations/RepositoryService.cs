@@ -1,4 +1,5 @@
 using System;
+using System.Linq.Expressions;
 using IAM.Database;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,6 +14,11 @@ public class RepositoryService<T> : IRepositoryService<T> where T : class
     {
         _context = context;
         _entities = context.Set<T>();
+    }
+
+    public DbSet<T> GetEntities() 
+    {
+        return _entities;
     }
 
     public async Task AddAsync(T entity)
@@ -30,9 +36,14 @@ public class RepositoryService<T> : IRepositoryService<T> where T : class
         return await _entities.ToListAsync();
     }
 
-    public async Task<T?> GetByIdAsync(int id)
+    public async Task<T?> GetByIdAsync(string id)
     {
         return await _entities.FindAsync(id);
+    }
+
+    public async Task<T?> GetItemByFilterAsync(Expression<Func<T, bool>> filter)
+    {
+        return await _entities.FirstOrDefaultAsync(filter);
     }
 
     public async Task SaveChangesAsync()
