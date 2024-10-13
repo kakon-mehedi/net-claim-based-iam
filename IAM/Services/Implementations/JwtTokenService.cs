@@ -16,15 +16,36 @@ public class JwtTokenService : IJwtTokenService
         _configuration = configuration;
     }
 
-    public string GenerateToken(User user)
+    public string GenerateRefreshToken(User user)
     {
-        var claims = new[] {
+        var claims = new List<Claim> {
             new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
             new Claim(ClaimTypes.Role, user.Role), // Admin role claim
             new Claim("Department", user.Department), // Custom claim
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
        };
 
+        var tokenValidity = DateTime.Now.AddDays(7);
+
+        return GenerateJwtToken(claims, tokenValidity);
+    }
+
+    public string GenerateToken(User user)
+    {
+        var claims = new List<Claim> {
+            new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
+            new Claim(ClaimTypes.Role, user.Role), // Admin role claim
+            new Claim("Department", user.Department), // Custom claim
+            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+       };
+
+        var tokenValidity = DateTime.Now.AddMinutes(15);
+
+        return GenerateJwtToken(claims, tokenValidity);
+    }
+
+    string GenerateJwtToken(List<Claim> claims, DateTime expiresIn)
+    {
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
         var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
@@ -32,7 +53,7 @@ public class JwtTokenService : IJwtTokenService
             issuer: _configuration["Jwt:Issuer"],
             audience: _configuration["Jwt:Audience"],
             claims: claims,
-            expires: DateTime.Now.AddHours(3),
+            expires: expiresIn,
             signingCredentials: creds
         );
 

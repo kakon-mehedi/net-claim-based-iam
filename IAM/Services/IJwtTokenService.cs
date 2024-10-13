@@ -6,4 +6,5 @@ namespace IAM.Services;
 public interface IJwtTokenService
 {
     public string GenerateToken(User user);
+    public string GenerateRefreshToken(User user);
 }
