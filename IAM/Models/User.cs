@@ -1,11 +1,12 @@
 using System;
+using Microsoft.AspNetCore.Identity;
 
 namespace IAM.Models;
 
-public class User
+public class User: IdentityUser
 {
-    required public int Id { get; set; }
-    required public string Username { get; set; }
-    required public string PasswordHash { get; set; } // Stored as a hashed password
-    required public string Role { get; set; }
+    required public string Id { get; set; }
+    public string Department { get; set; } = string.Empty;
+    public string Password { get; set; } // Stored as a hashed password
+    public string Role { get; set; }
 }
