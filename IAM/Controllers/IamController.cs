@@ -38,5 +38,15 @@ namespace IAM.Controllers
 
             return result.IsSuccess ? Ok(result) : BadRequest(result.Errors);
         }
+
+
+        [HttpPatch]
+        public async Task<IActionResult> UpdateUser(UpdateUserModel updatedUser)
+        {
+            var result = await _userService.UpdateUser(updatedUser);
+
+            return result.IsSuccess ? Ok(result) : BadRequest(result.Errors);
+        }
+
     }
 }

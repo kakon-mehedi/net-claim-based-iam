@@ -1,9 +1,12 @@
 using System;
 using System.Security.Claims;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using IAM.Claims;
 using IAM.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace IAM.Database;
 
@@ -25,6 +28,15 @@ public class ApplicationDbContext : DbContext
     {
 
         base.OnModelCreating(builder);
+
+        // Convert CustomClaims Dictionary as it is not by Ef core automatically
+
+        builder.Entity<User>()
+        .Property(x => x.CustomClaims)
+        .HasConversion(
+            v => JsonSerializer.Serialize(v, new JsonSerializerOptions()),
+            v => JsonSerializer.Deserialize<Dictionary<string, string>>(v, new JsonSerializerOptions())
+        );
 
         // Manually configure Identity table names if necessary
         builder.Entity<User>().ToTable("Users");

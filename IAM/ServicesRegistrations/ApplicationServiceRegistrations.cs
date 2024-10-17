@@ -12,9 +12,9 @@ public static class ApplicationServiceRegistrations
         services.AddBootstrapServices();
         services.AddMysqlDatabaseService(configuration);
         services.AddRepositoryServices();
+        services.AddThirdPartyServices();
         
         services.AddIamServices();
-        services.AddThirdPartyServices();
         return services;
     }
 }

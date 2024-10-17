@@ -13,7 +13,7 @@ public static class ApplicationBootstrapServices
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
         services.AddAuthentication();
-        services.AddAuthorization();
+        services.AddAuthorizationPolicies();
 
         return services;
     }

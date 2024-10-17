@@ -9,7 +9,7 @@ public class LoginModelValidator
     {
         var response = new ApiResponseModel();
 
-        if (string.IsNullOrWhiteSpace(model.Username))
+        if (string.IsNullOrWhiteSpace(model.Email))
         {
             response.SetError(1, "Email cannot be empty.");
         }

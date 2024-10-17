@@ -16,10 +16,10 @@ public class UserRegistrationModelValidator
             response.SetError(1, "Email cannot be empty.");
         }
 
-        if (string.IsNullOrWhiteSpace(model.UserName))
-        {
-            response.SetError(2, "Username cannot be empty.");
-        }
+        // if (string.IsNullOrWhiteSpace(model.UserName))
+        // {
+        //     response.SetError(2, "Username cannot be empty.");
+        // }
 
         if (string.IsNullOrWhiteSpace(model.Password))
         {

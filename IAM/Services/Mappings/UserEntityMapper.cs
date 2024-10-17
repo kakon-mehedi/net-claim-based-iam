@@ -11,11 +11,10 @@ public class UserEntityMapper
         var user = new User
         {
             Id = Guid.NewGuid().ToString(),
-            UserName = source.UserName,
-            Department = source.Department,
-            Role = source.Role,
+            TenantId = source.TenantId,
             Email = source.Email,
-            RefreshToken = string.Empty
+            RefreshToken = string.Empty,
+            Role = source.Role,
         };
 
         user.Password = passwordHasher.HashPassword(user, source.Password);

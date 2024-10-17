@@ -19,11 +19,12 @@ public class JwtTokenService : IJwtTokenService
     public string GenerateRefreshToken(User user)
     {
         var claims = new List<Claim> {
-            new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
-            new Claim(ClaimTypes.Role, user.Role), // Admin role claim
-            new Claim("Department", user.Department), // Custom claim
-            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
-        };
+        new Claim(JwtRegisteredClaimNames.Sub, user.Email),
+        new Claim(ClaimTypes.Role, user.Role), 
+        new Claim("Department", user.CustomClaims.TryGetValue("Department", out var department) ? department : string.Empty),
+        new Claim("Rank", user.CustomClaims.TryGetValue("Rank", out var rank) ? rank : string.Empty), 
+        new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+    };
 
         var tokenValidity = DateTime.Now.AddDays(7);
 
@@ -33,11 +34,12 @@ public class JwtTokenService : IJwtTokenService
     public string GenerateToken(User user)
     {
         var claims = new List<Claim> {
-            new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
-            new Claim(ClaimTypes.Role, user.Role), // Admin role claim
-            new Claim("Department", user.Department), // Custom claim
-            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
-       };
+        new Claim(JwtRegisteredClaimNames.Sub, user.Email),
+        new Claim(ClaimTypes.Role, user.Role),
+        new Claim("Department", user.CustomClaims.TryGetValue("Department", out var department) ? department : string.Empty),
+        new Claim("Rank", user.CustomClaims.TryGetValue("Rank", out var rank) ? rank : string.Empty),
+        new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+    };
 
         var tokenValidity = DateTime.Now.AddMinutes(15);
 

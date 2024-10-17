@@ -37,7 +37,7 @@ public class UserService : IUserService
 
         if (!response.IsSuccess) return response;
 
-        var user = await _repo.GetItemByFilterAsync((user) => user.UserName == model.Username );
+        var user = await _repo.GetItemByFilterAsync((user) => user.Email == model.Email );
 
         if (user == null)
         {
@@ -84,12 +84,37 @@ public class UserService : IUserService
             Id = user.Id,
             UserName = user.UserName,
             Email = user.Email,
-            Department = user.Department,
             Role = user.Role,
         };
 
         response.SetData(data);
 
         return response;
+    }
+
+    public async Task<ApiResponseModel> UpdateUser(UpdateUserModel updatedUser)
+    {
+        var validator = new UpdateUserValidator();
+        var response = await Task.Run(() => validator.validate(updatedUser));
+
+        if (!response.IsSuccess) return response;
+
+        var user = await _repo.GetByIdAsync(updatedUser.Id);
+
+        if (user == null) {
+            response.SetError(0, "User not found");
+            return response;
+        }
+
+        user.CustomClaims = updatedUser.CustomClaims;
+        user.Role = updatedUser.Role;
+
+        _repo.Update(user);
+        await _repo.SaveChangesAsync();
+
+        response.SetData(user);
+
+        return response;
+
     }
 }

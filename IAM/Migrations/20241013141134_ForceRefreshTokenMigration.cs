@@ -10,11 +10,11 @@ namespace IAM.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<string>(
-                name: "RefreshToken",
-                table: "Users",
-                nullable: true
-            );
+            // migrationBuilder.AddColumn<string>(
+            //     name: "RefreshToken",
+            //     table: "Users",
+            //     nullable: true
+            // );
         }
 
         /// <inheritdoc />
