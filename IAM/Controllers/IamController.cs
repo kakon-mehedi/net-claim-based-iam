@@ -48,5 +48,12 @@ namespace IAM.Controllers
             return result.IsSuccess ? Ok(result) : BadRequest(result.Errors);
         }
 
+        [HttpGet] 
+        public async Task<IActionResult> GetUserById(string id)
+        {
+            var result = await _userService.GetUserById(id);
+            return result.IsSuccess ? Ok(result) : BadRequest(result.Errors);
+        }
+
     }
 }

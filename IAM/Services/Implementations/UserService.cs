@@ -30,6 +30,37 @@ public class UserService : IUserService
         throw new NotImplementedException();
     }
 
+    public async Task<ApiResponseModel> GetUserById(string userId)
+    {
+        var response = new ApiResponseModel();
+        if (string.IsNullOrEmpty(userId))
+        {
+            response.SetError(0, "UserId can be empty");
+            return response;
+        }
+
+        var user = await _repo.GetByIdAsync(userId);
+
+        if (user == null)
+        {
+            response.SetError(0, "User not found");
+            return response;
+        }
+
+        var data = new UserDetailsModel
+        {
+            Id = user.Id,
+            TenantId = user.TenantId,
+            Role = user.Role,
+            CustomClaims = user.CustomClaims,
+        };
+
+        response.SetData(data);
+
+        return response;
+
+    }
+
     public async Task<ApiResponseModel> Login(LoginModel model)
     {
         var validator = new LoginModelValidator();
@@ -37,7 +68,7 @@ public class UserService : IUserService
 
         if (!response.IsSuccess) return response;
 
-        var user = await _repo.GetItemByFilterAsync((user) => user.Email == model.Email );
+        var user = await _repo.GetItemByFilterAsync((user) => user.Email == model.Email);
 
         if (user == null)
         {
@@ -47,7 +78,8 @@ public class UserService : IUserService
 
         var passwordValidation = _passwordHasher.VerifyHashedPassword(user, user.Password, model.Password);
 
-        if (passwordValidation == PasswordVerificationResult.Failed) {
+        if (passwordValidation == PasswordVerificationResult.Failed)
+        {
             response.SetError(401, "Unauthorized");
             return response;
         }
@@ -82,7 +114,6 @@ public class UserService : IUserService
         var data = new UserResponseModel
         {
             Id = user.Id,
-            UserName = user.UserName,
             Email = user.Email,
             Role = user.Role,
         };
@@ -101,7 +132,8 @@ public class UserService : IUserService
 
         var user = await _repo.GetByIdAsync(updatedUser.Id);
 
-        if (user == null) {
+        if (user == null)
+        {
             response.SetError(0, "User not found");
             return response;
         }
@@ -112,7 +144,16 @@ public class UserService : IUserService
         _repo.Update(user);
         await _repo.SaveChangesAsync();
 
-        response.SetData(user);
+        var data = new UserResponseModel
+        {
+            Id = user.Id,
+            Email = user.Email,
+            Role = user.Role,
+            CustomClaims = user.CustomClaims
+
+        };
+
+        response.SetData(data);
 
         return response;
 
