@@ -1,6 +1,7 @@
 using IAM.Attributes;
 using IAM.Models;
 using IAM.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IAM.Controllers
@@ -40,10 +41,11 @@ namespace IAM.Controllers
         }
 
 
+        [Authorize("AdminPolicy")]
         [HttpPatch]
-        public async Task<IActionResult> UpdateUser(UpdateUserModel updatedUser)
+        public async Task<IActionResult> UpdateUserRoleAndClaims(UpdateUserModel updatedUser)
         {
-            var result = await _userService.UpdateUser(updatedUser);
+            var result = await _userService.UpdateUserRoleAndClaims(updatedUser);
 
             return result.IsSuccess ? Ok(result) : BadRequest(result.Errors);
         }

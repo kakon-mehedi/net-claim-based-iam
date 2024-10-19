@@ -12,7 +12,8 @@ public static class ApplicationServiceRegistrations
         services.AddBootstrapServices();
         services.AddMysqlDatabaseService(configuration);
         services.AddRepositoryServices();
-        services.AddThirdPartyServices();
+        services.AddAuthenticationService();
+        services.AddAuthorizationService();
         
         services.AddIamServices();
         return services;

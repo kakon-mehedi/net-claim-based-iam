@@ -123,7 +123,7 @@ public class UserService : IUserService
         return response;
     }
 
-    public async Task<ApiResponseModel> UpdateUser(UpdateUserModel updatedUser)
+    public async Task<ApiResponseModel> UpdateUserRoleAndClaims(UpdateUserModel updatedUser)
     {
         var validator = new UpdateUserValidator();
         var response = await Task.Run(() => validator.validate(updatedUser));
