@@ -64,7 +64,7 @@ public class UserService : IUserService
     public async Task<ApiResponseModel> Login(LoginModel model)
     {
         var validator = new LoginModelValidator();
-        var response = await Task.Run(() => validator.validate(model));
+        var response = validator.validate(model);
 
         if (!response.IsSuccess) return response;
 
@@ -101,7 +101,7 @@ public class UserService : IUserService
     public async Task<ApiResponseModel> RegisterUser(UserRegistrationModel model)
     {
         var validator = new UserRegistrationModelValidator();
-        var response = await Task.Run(() => validator.validate(model));
+        var response = validator.validate(model);
 
         if (!response.IsSuccess) return response;
 
@@ -126,7 +126,7 @@ public class UserService : IUserService
     public async Task<ApiResponseModel> UpdateUserRoleAndClaims(UpdateUserModel updatedUser)
     {
         var validator = new UpdateUserValidator();
-        var response = await Task.Run(() => validator.validate(updatedUser));
+        var response = validator.validate(updatedUser);
 
         if (!response.IsSuccess) return response;
 
