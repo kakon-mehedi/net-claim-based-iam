@@ -21,7 +21,7 @@ public class JwtTokenService : IJwtTokenService
     {
         var claims = new List<Claim> {
         new Claim(JwtRegisteredClaimNames.Sub, user.Email),
-        new Claim(IdentityData.RoleClaim, user.Role), 
+        new Claim(AppClaims.Role, user.Role), 
         new Claim("Department", user.CustomClaims.TryGetValue("Department", out var department) ? department : string.Empty),
         new Claim("Rank", user.CustomClaims.TryGetValue("Rank", out var rank) ? rank : string.Empty), 
         new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
@@ -36,7 +36,7 @@ public class JwtTokenService : IJwtTokenService
     {
         var claims = new List<Claim> {
         new Claim(JwtRegisteredClaimNames.Sub, user.Email),
-        new Claim(IdentityData.RoleClaim, user.Role),
+        new Claim(AppClaims.Role, user.Role),
         new Claim("Department", user.CustomClaims.TryGetValue("Department", out var department) ? department : string.Empty),
         new Claim("Rank", user.CustomClaims.TryGetValue("Rank", out var rank) ? rank : string.Empty),
         new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())

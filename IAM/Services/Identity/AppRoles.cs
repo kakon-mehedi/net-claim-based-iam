@@ -2,7 +2,7 @@ using System;
 
 namespace IAM.Services.Identity;
 
-public class Roles
+public class AppRoles
 {
     public const string SUPER_ADMIN = "SuperAdmin";
     public const string ADMIN = "Admin";
