@@ -1,6 +1,7 @@
 using IAM.Attributes;
 using IAM.Models;
 using IAM.Services;
+using IAM.Services.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -41,7 +42,7 @@ namespace IAM.Controllers
         }
 
 
-        [Authorize("AdminPolicy")]
+        [Authorize(Policy = IdentityData.AdminPolicy)]
         [HttpPatch]
         public async Task<IActionResult> UpdateUserRoleAndClaims(UpdateUserModel updatedUser)
         {

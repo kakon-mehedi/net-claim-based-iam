@@ -12,7 +12,7 @@ public static class ApplicationServiceRegistrations
         services.AddBootstrapServices();
         services.AddMysqlDatabaseService(configuration);
         services.AddRepositoryServices();
-        services.AddAuthenticationService();
+        services.AddAuthenticationService(configuration);
         services.AddAuthorizationService();
         
         services.AddIamServices();

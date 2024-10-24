@@ -3,6 +3,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using IAM.Models;
+using IAM.Services.Identity;
 using Microsoft.IdentityModel.Tokens;
 
 namespace IAM.Services.Implementations;
@@ -20,7 +21,7 @@ public class JwtTokenService : IJwtTokenService
     {
         var claims = new List<Claim> {
         new Claim(JwtRegisteredClaimNames.Sub, user.Email),
-        new Claim(ClaimTypes.Role, user.Role), 
+        new Claim(IdentityData.RoleClaim, user.Role), 
         new Claim("Department", user.CustomClaims.TryGetValue("Department", out var department) ? department : string.Empty),
         new Claim("Rank", user.CustomClaims.TryGetValue("Rank", out var rank) ? rank : string.Empty), 
         new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
@@ -35,7 +36,7 @@ public class JwtTokenService : IJwtTokenService
     {
         var claims = new List<Claim> {
         new Claim(JwtRegisteredClaimNames.Sub, user.Email),
-        new Claim(ClaimTypes.Role, user.Role),
+        new Claim(IdentityData.RoleClaim, user.Role),
         new Claim("Department", user.CustomClaims.TryGetValue("Department", out var department) ? department : string.Empty),
         new Claim("Rank", user.CustomClaims.TryGetValue("Rank", out var rank) ? rank : string.Empty),
         new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())

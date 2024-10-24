@@ -1,5 +1,6 @@
 using System;
 using System.Security.Claims;
+using IAM.Services.Identity;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace IAM.ServicesRegistrations;
@@ -10,12 +11,13 @@ public static class ApplicationAuthorizationPolicyRegistrations
     {
         services.AddAuthorization(options =>
         {
-            options.AddPolicy("HRPolicy", policy => policy.RequireClaim(ClaimTypes.Role, "HR"));
-            options.AddPolicy("AdminPolicy", policy => policy.RequireClaim(ClaimTypes.Role, "Admin"));
-            options.AddPolicy("EmployeePolicy", policy => policy.RequireClaim(ClaimTypes.Role, "Employee"));
+            options.AddPolicy(IdentityData.AdminPolicy, policy => policy.RequireClaim(IdentityData.RoleClaim, "Admin"));
+            // options.AddPolicy("HRPolicy", policy => policy.RequireClaim(ClaimTypes.Role, "HR"));
+            // options.AddPolicy("AdminPolicy", policy => policy.RequireClaim(ClaimTypes.Role, "Admin"));
+            // options.AddPolicy("EmployeePolicy", policy => policy.RequireClaim(ClaimTypes.Role, "Employee"));
 
-            options.AddPolicy("AdminOrHRPolicy", policy =>
-            policy.RequireAssertion(context => context.User.HasClaim(c => c.Type == ClaimTypes.Role && (c.Value == "Admin" || c.Value == "HR"))));
+            // options.AddPolicy("AdminOrHRPolicy", policy =>
+            // policy.RequireAssertion(context => context.User.HasClaim(c => c.Type == ClaimTypes.Role && (c.Value == "Admin" || c.Value == "HR"))));
         });
 
         // Other services (e.g., Authentication)
@@ -23,4 +25,4 @@ public static class ApplicationAuthorizationPolicyRegistrations
         return services;
 
     }
-}
+} 

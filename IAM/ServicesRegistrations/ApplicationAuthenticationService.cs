@@ -10,26 +10,32 @@ namespace IAM.ServicesRegistrations;
 
 public static class ApplicationAuthenticationService
 {
-    public static IServiceCollection AddAuthenticationService(this IServiceCollection services)
+    public static IServiceCollection AddAuthenticationService(this IServiceCollection services, IConfiguration configuration)
     {
+        services.AddIdentityServices();
+
         services
-        .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+        .AddAuthentication( x => 
+            {
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+            }
+        )
         .AddJwtBearer(options =>
             {
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
-                    // Your JWT token validation settings
                     ValidateIssuer = true,
                     ValidateAudience = true,
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
-                    ValidIssuer = "your-issuer",
-                    ValidAudience = "your-audience",
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("your-secret-key"))
+                    ValidIssuer = configuration["Jwt:Issuer"],
+                    ValidAudience = configuration["Jwt:Audience"],
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Key"]))
                 };
             }
         );
-
 
         return services;
     }
@@ -43,6 +49,9 @@ public static class ApplicationAuthenticationService
 
         // Step 2: To 
         ib.AddEntityFrameworkStores<ApplicationDbContext>();
+        
+        // Step 3
+        ib.AddDefaultTokenProviders();
 
         return services;
     }
