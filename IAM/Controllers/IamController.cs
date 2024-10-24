@@ -42,7 +42,7 @@ namespace IAM.Controllers
         }
 
 
-        [Authorize(Policy = IdentityData.AdminPolicy)]
+        [Authorize(Policy = AppPolicies.AdminPolicy)]
         [HttpPatch]
         public async Task<IActionResult> UpdateUserRoleAndClaims(UpdateUserModel updatedUser)
         {
@@ -51,6 +51,8 @@ namespace IAM.Controllers
             return result.IsSuccess ? Ok(result) : BadRequest(result.Errors);
         }
 
+        [Authorize]
+        [RequiresClaim(AppClaims.Role, AppRoles.HR )]
         [HttpGet] 
         public async Task<IActionResult> GetUserById(string id)
         {
