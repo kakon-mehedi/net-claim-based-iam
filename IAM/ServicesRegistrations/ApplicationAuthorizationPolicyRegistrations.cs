@@ -11,7 +11,7 @@ public static class ApplicationAuthorizationPolicyRegistrations
     {
         services.AddAuthorization(options =>
         {
-            options.AddPolicy(IdentityData.AdminPolicy, policy => policy.RequireClaim(IdentityData.RoleClaim, "Admin"));
+            options.AddPolicy(IdentityData.AdminPolicy, policy => policy.RequireClaim(IdentityData.RoleClaim, Roles.ADMIN));
             // options.AddPolicy("HRPolicy", policy => policy.RequireClaim(ClaimTypes.Role, "HR"));
             // options.AddPolicy("AdminPolicy", policy => policy.RequireClaim(ClaimTypes.Role, "Admin"));
             // options.AddPolicy("EmployeePolicy", policy => policy.RequireClaim(ClaimTypes.Role, "Employee"));
@@ -25,4 +25,4 @@ public static class ApplicationAuthorizationPolicyRegistrations
         return services;
 
     }
-} 
+}

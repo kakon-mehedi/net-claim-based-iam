@@ -12,7 +12,7 @@ public static class ApplicationAuthenticationService
 {
     public static IServiceCollection AddAuthenticationService(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddIdentityServices();
+        // services.AddIdentityServices();
 
         services
         .AddAuthentication( x => 
