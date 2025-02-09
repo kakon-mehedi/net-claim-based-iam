@@ -16,7 +16,7 @@ public class RepositoryService<T> : IRepositoryService<T> where T : class
         _entities = context.Set<T>();
     }
 
-    public DbSet<T> GetEntities() 
+    public DbSet<T> GetEntities()
     {
         return _entities;
     }

@@ -12,7 +12,9 @@ namespace IAM.Database;
 
 public class ApplicationDbContext : DbContext
 {
-    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
+    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
+    {
+    }
 
     // Define DbSets for Identity
     public DbSet<User> Users { get; set; }
@@ -26,17 +28,16 @@ public class ApplicationDbContext : DbContext
     // Configure the Identity tables in OnModelCreating
     protected override void OnModelCreating(ModelBuilder builder)
     {
-
         base.OnModelCreating(builder);
 
         // Convert CustomClaims Dictionary as it is not by Ef core automatically
 
         builder.Entity<User>()
-        .Property(x => x.CustomClaims)
-        .HasConversion(
-            v => JsonSerializer.Serialize(v, new JsonSerializerOptions()),
-            v => JsonSerializer.Deserialize<Dictionary<string, string>>(v, new JsonSerializerOptions())
-        );
+            .Property(x => x.CustomClaims)
+            .HasConversion(
+                v => JsonSerializer.Serialize(v, new JsonSerializerOptions()),
+                v => JsonSerializer.Deserialize<Dictionary<string, string>>(v, new JsonSerializerOptions())
+            );
 
         // Manually configure Identity table names if necessary
         builder.Entity<User>().ToTable("Users");
