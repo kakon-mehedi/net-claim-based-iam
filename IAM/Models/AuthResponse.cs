@@ -4,6 +4,6 @@ namespace IAM.Models;
 
 public class AuthResponse
 {
-    required public string Token { get; set; }
-    required public DateTime Expiration { get; set; }
+    public required string Token { get; set; }
+    public required DateTime Expiration { get; set; }
 }

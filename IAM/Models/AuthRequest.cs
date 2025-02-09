@@ -4,6 +4,6 @@ namespace IAM.Models;
 
 public class AuthRequest
 {
-    required public string Username { get; set; }
-    required public string Password { get; set; }
+    public required string Username { get; set; }
+    public required string Password { get; set; }
 }
