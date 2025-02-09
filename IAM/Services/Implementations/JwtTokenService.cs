@@ -36,7 +36,7 @@ public class JwtTokenService : IJwtTokenService
 
     public string GenerateToken(User user)
     {
-        var claims = new List<Claim>
+        List<Claim> claims = new()
         {
             new Claim(JwtRegisteredClaimNames.Sub, user.Email),
             new Claim(AppClaims.Role, user.Role),
@@ -51,7 +51,7 @@ public class JwtTokenService : IJwtTokenService
         return GenerateJwtToken(claims, tokenValidity);
     }
 
-    string GenerateJwtToken(List<Claim> claims, DateTime expiresIn)
+    private string GenerateJwtToken(List<Claim> claims, DateTime expiresIn)
     {
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
         var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
