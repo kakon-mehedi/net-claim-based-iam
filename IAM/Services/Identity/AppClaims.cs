@@ -4,5 +4,5 @@ namespace IAM.Services.Identity;
 
 public class AppClaims
 {
-    public const string Role  = "Role";
+    public const string Role = "Role";
 }

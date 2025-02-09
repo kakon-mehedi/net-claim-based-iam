@@ -18,7 +18,7 @@ public class UpdateUserValidator
         {
             response.SetError(0, "User can not bue null or empty");
         }
-        
+
         response.SetStatusCode(response.IsSuccess ? 200 : 400);
 
         return response;

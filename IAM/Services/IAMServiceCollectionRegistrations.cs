@@ -12,9 +12,9 @@ public static class IamServiceCollectionRegistrations
     {
         services.AddTransient<IUserService, UserService>();
         services.AddTransient<IJwtTokenService, JwtTokenService>();
-        
+
         services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
-        
+
         return services;
     }
 }

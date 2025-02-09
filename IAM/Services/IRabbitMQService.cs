@@ -4,5 +4,5 @@ namespace IAM.Services;
 
 public interface IRabbitMQService
 {
-     void PublishMessage(string queueName, object message);
+    void PublishMessage(string queueName, object message);
 }

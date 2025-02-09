@@ -58,7 +58,6 @@ public class UserService : IUserService
         response.SetData(data);
 
         return response;
-
     }
 
     public async Task<ApiResponseModel> Login(LoginModel model)
@@ -95,7 +94,6 @@ public class UserService : IUserService
         response.SetData(data);
 
         return response;
-
     }
 
     public async Task<ApiResponseModel> RegisterUser(UserRegistrationModel model)
@@ -150,12 +148,10 @@ public class UserService : IUserService
             Email = user.Email,
             Role = user.Role,
             CustomClaims = user.CustomClaims
-
         };
 
         response.SetData(data);
 
         return response;
-
     }
 }

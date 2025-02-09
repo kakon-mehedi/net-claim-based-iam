@@ -5,5 +5,4 @@ namespace IAM.Services.Mappings;
 
 public class UpdateUserEntityMapper
 {
-     
 }
