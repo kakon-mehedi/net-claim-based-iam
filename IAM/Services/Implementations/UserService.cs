@@ -51,7 +51,7 @@ public class UserService : IUserService
         {
             Id = user.Id,
             TenantId = user.TenantId,
-            Role = user.Role,
+            Roles = user.Roles,
             CustomClaims = user.CustomClaims,
         };
 
@@ -113,7 +113,7 @@ public class UserService : IUserService
         {
             Id = user.Id,
             Email = user.Email,
-            Role = user.Role,
+            Roles = user.Roles,
         };
 
         response.SetData(data);
@@ -128,7 +128,7 @@ public class UserService : IUserService
 
         if (!response.IsSuccess) return response;
 
-        var user = await _repo.GetByIdAsync(updatedUser.Id);
+        User user = await _repo.GetByIdAsync(updatedUser.Id);
 
         if (user == null)
         {
@@ -137,7 +137,7 @@ public class UserService : IUserService
         }
 
         user.CustomClaims = updatedUser.CustomClaims;
-        user.Role = updatedUser.Role;
+        user.Roles = updatedUser.Roles;
 
         _repo.Update(user);
         await _repo.SaveChangesAsync();
@@ -146,7 +146,7 @@ public class UserService : IUserService
         {
             Id = user.Id,
             Email = user.Email,
-            Role = user.Role,
+            Roles = user.Roles,
             CustomClaims = user.CustomClaims
         };
 

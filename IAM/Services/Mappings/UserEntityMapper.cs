@@ -14,7 +14,7 @@ public class UserEntityMapper
             TenantId = source.TenantId,
             Email = source.Email,
             RefreshToken = string.Empty,
-            Role = source.Role,
+            Roles = source.Roles,
         };
 
         user.Password = passwordHasher.HashPassword(user, source.Password);

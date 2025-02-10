@@ -29,11 +29,7 @@ public class UserRegistrationModelValidator
         {
             response.SetError(4, "Password must be at least 6 characters long.");
         }
-
-        if (string.IsNullOrWhiteSpace(model.Role))
-        {
-            response.SetError(5, "Password cannot be empty.");
-        }
+        
 
         response.SetStatusCode(response.IsSuccess ? 200 : 400);
 

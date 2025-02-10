@@ -19,15 +19,19 @@ public class JwtTokenService : IJwtTokenService
 
     public string GenerateRefreshToken(User user)
     {
-        var claims = new List<Claim>
+        List<Claim> claims = new()
         {
             new Claim(JwtRegisteredClaimNames.Sub, user.Email),
-            new Claim(AppClaims.Role, user.Role),
             new Claim("Department",
                 user.CustomClaims.TryGetValue("Department", out var department) ? department : string.Empty),
             new Claim("Rank", user.CustomClaims.TryGetValue("Rank", out var rank) ? rank : string.Empty),
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
         };
+
+        foreach (string role in user.Roles)
+        {
+            claims.Add(new Claim(ClaimTypes.Role, role));
+        }
 
         var tokenValidity = DateTime.Now.AddDays(7);
 
@@ -36,15 +40,24 @@ public class JwtTokenService : IJwtTokenService
 
     public string GenerateToken(User user)
     {
+        
         List<Claim> claims = new()
         {
-            new Claim(JwtRegisteredClaimNames.Sub, user.Email),
-            new Claim(AppClaims.Role, user.Role),
+            new Claim(JwtRegisteredClaimNames.Sub, user.Email), //single input string
             new Claim("Department",
                 user.CustomClaims.TryGetValue("Department", out var department) ? department : string.Empty),
             new Claim("Rank", user.CustomClaims.TryGetValue("Rank", out var rank) ? rank : string.Empty),
-            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+            new Claim("Certification", "Clean Code"),
+            new Claim("Certification", "DSA"), // Same key multi input will make it array in the token string
+            new Claim("Certification", "Team Leade"),
         };
+        
+        // Same key multi input will make it array in the token string
+        foreach (string role in user.Roles)
+        {
+            claims.Add(new Claim(ClaimTypes.Role, role));
+        }
 
         var tokenValidity = DateTime.Now.AddMinutes(15);
 
